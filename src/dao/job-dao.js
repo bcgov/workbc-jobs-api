@@ -2,13 +2,13 @@ var jobs = require('./json/job.json');
 
 exports.getJobs = async (params) => {
   try {
-    let jobTitle = params.jobTitle ? params.jobTitle.toLowerCase().trim() : null;
+    let jobTitle = params.jobTitle?.toLowerCase().trim();
     let minimumPostedDate = params.minimumPostedDate ? new Date(params.minimumPostedDate) : null;
 
     var results = jobs.jobs.filter(job => 
       // Job Title //
       (jobTitle ? 
-        (job.jobTitle ? job.jobTitle.toLowerCase().includes(jobTitle) : false)
+        job.jobTitle?.toLowerCase().includes(jobTitle)
         : true) &&
 
       // Minimum Posted Date //
@@ -38,8 +38,8 @@ exports.totalJobs = async () => {
 
 exports.searchJobs = async (params) => {
   try {
-    let jobTitle = params.jobTitle ? params.jobTitle.toLowerCase().trim() : null;
-    let location = params.location ? params.location.toLowerCase().trim() : null;
+    let jobTitle = params.jobTitle.toLowerCase().trim();
+    let location = params.location.toLowerCase().trim();
 
     var results = jobs.jobs.filter(job => 
       // Job Title //
@@ -48,9 +48,9 @@ exports.searchJobs = async (params) => {
       // Location //
       ((location && job.locations) ? job.locations.some(loc => {
         return (
-          loc.city ? loc.city.toLowerCase().trim() == location : false ||
-          loc.region && loc.region.caption ? loc.region.caption.toLowerCase().trim() == location : false ||
-          loc.province ? loc.province.toLowerCase().trim() == location : false
+          loc.city.toLowerCase().trim() == location ||
+          loc.region?.caption?.toLowerCase().trim() == location ||
+          loc.province.toLowerCase().trim() == location
         );
       }) : false)
     );

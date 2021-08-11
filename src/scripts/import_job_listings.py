@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+import sys
 
 def fetch(url):
     res = requests.post(url, json={ "lastRequestDate": "2015-08-29" })
