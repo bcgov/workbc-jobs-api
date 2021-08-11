@@ -27,9 +27,7 @@ jobs:
           # The URL of the Openshift cluster
           openshift_server_url: ${{secrets.OCP4_SERVER_URL}}
           # JSON with values to connect to the Openshift cluster
-          parameters: '{"apitoken": "${{ secrets.API_TOKEN_4 }}", "acceptUntrustedCerts": "true"}'
+          parameters: '{"apitoken": "${{ secrets.API_TOKEN }}", "acceptUntrustedCerts": "true"}'
           # Oc command to be executed
           cmd: |
-            'start-build access-to-technology -n ${{secrets.PROJECT_TOOLS_4}}'
-            'start-build access-to-technology-api -n ${{secrets.PROJECT_TOOLS_4}}'
-            'start-build access-to-technology-cron -n ${{secrets.PROJECT_TOOLS_4}}'
+            'start-build workbc-jobs-api -n ${{secrets.PROJECT_DEV}}'
