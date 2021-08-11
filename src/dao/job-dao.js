@@ -1,31 +1,27 @@
 var jobs = require('./json/job.json');
 
-exports.getJobs = async (sub, payload) => {
+exports.getJobs = async (params) => {
   try {
-    let payloadJSON = JSON.parse(payload);
-    //console.log(payloadJSON);
-    // console.log(payloadJSON.keyword);
+    let jobTitle = params.jobTitle?.toLowerCase().trim();
+    let minimumPostedDate = params.minimumPostedDate ? new Date(params.minimumPostedDate) : null;
 
-    // jobResults = jobs.jobs.filter(i => i.jobTitle.includes(payloadJSON.keyword));
+    var results = jobs.jobs.filter(job => 
+      // Job Title //
+      (jobTitle ? 
+        job.jobTitle?.toLowerCase().includes(jobTitle) 
+        : true) &&
 
-    let results = [];
-    var jobData = jobs.jobs.filter(i => i.jobTitle != null);
-    
-    for (var i = 0; i < jobData.length; i++) {
-      var title = jobData[i].jobTitle;
-      // console.log(title);
-      if (title)
-        if (title.toLowerCase().search(payloadJSON.keyword.toLowerCase()) > -1) {
-          results.push(jobData[i]);
-        }
-    }
-    // console.log("results");
-    // console.log(results);
+      // Minimum Posted Date //
+      (minimumPostedDate ? 
+        (job.postedDate? new Date(job.postedDate) >= minimumPostedDate : false)
+        : true)
+    );
+
     return results;
 
-  } catch (err) {
-    console.log(err);
-    throw err;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 };
 
@@ -39,3 +35,30 @@ exports.totalJobs = async () => {
     throw err;
   }
 };
+
+exports.searchJobs = async (params) => {
+  try {
+    let jobTitle = params.jobTitle?.toLowerCase().trim();
+    let location = params.location?.toLowerCase().trim();
+
+    var results = jobs.jobs.filter(job => 
+      // Job Title //
+      ((jobTitle && job.jobTitle) ? job.jobTitle.toLowerCase().includes(jobTitle) : false) ||
+
+      // Location //
+      ((location && job.locations) ? job.locations.some(loc => {
+        return (
+          loc.city?.toLowerCase().trim() == location ||
+          loc.region?.caption?.toLowerCase().trim() == location ||
+          loc.province?.toLowerCase().trim() == location
+        );
+      }) : false)
+    );
+
+    return results;
+
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

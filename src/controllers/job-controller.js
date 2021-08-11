@@ -1,45 +1,17 @@
 const jobDAO = require("../dao/job-dao");
 
-exports.getJobs = async (req, res, next) => {
+// GET Get Jobs //
+exports.getJobs = async (req, res) => {
   try {
-    const { headers, params } = req;
-    const { payload } = params;
-    let sub = "";
-    // console.log(payload);
-    const jobs = await jobDAO.getJobs(sub, payload);
+    const jobs = await jobDAO.getJobs(req.body);
 
     return res.status(200).json({
-      Result: "Success",
-      Data: jobs
+      count: jobs.length,
+      jobs: jobs
     });
-
-
-    // (!payloadJSON.lang) ? { lang = "EN" } : { lang = payloadJSON.lang };
-
-    // await services.jobApi.post("/jobs/",
-    //   {
-    //     lastRequestDate: "2018-08-29",
-    //     region: 1,
-    //     city: "Victoria",
-    //     jobTypes: [
-    //       1
-    //     ],
-    //     majorProjects: false
-    //   }
-    // ).then(result => {
-    //   console.log(result.data.jobs);
-    //   return res.status(200).json({
-    //     Result: "Success",
-    //     Data: result.data.jobs.filter(item => item.jobTitle != null)
-    //   });
-    // })
 
   } catch (err) {
-    // debug(err);
-
-    return res.status(500).json({
-      message: err + "-Error when trying to search jobs."
-    });
+      return res.status(500).send("Internal Server Error");
   }
 };
 
@@ -52,5 +24,20 @@ exports.totalJobs = async (req, res) => {
 
   catch (err) {
     return res.status(500).send("Internal server error");
+  }
+};
+
+// GET Search Jobs //
+exports.searchJobs = async (req, res) => {
+  try {
+    const jobs = await jobDAO.searchJobs(req.body);
+
+    return res.status(200).json({
+      count: jobs.length,
+      jobs: jobs
+    });
+
+  } catch (err) {
+      return res.status(500).send("Internal Server Error");
   }
 };
