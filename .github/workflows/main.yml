@@ -30,4 +30,5 @@ jobs:
           parameters: '{"apitoken": "${{ secrets.API_TOKEN }}", "acceptUntrustedCerts": "true"}'
           # Oc command to be executed
           cmd: |
+            'projects'
             'start-build workbc-jobs-api -n ${{secrets.PROJECT_DEV}}'
