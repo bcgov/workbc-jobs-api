@@ -38,21 +38,25 @@ exports.totalJobs = async () => {
 
 exports.searchJobs = async (params) => {
   try {
-    let jobTitle = params.jobTitle.toLowerCase().trim();
-    let location = params.location.toLowerCase().trim();
+    let jobTitle = params.jobTitle?.toLowerCase().trim();
+    let location = params.location?.toLowerCase().trim();
+
+    if (!jobTitle && !location){
+      return [];
+    }
 
     var results = jobs.jobs.filter(job => 
       // Job Title //
-      ((jobTitle && job.jobTitle) ? job.jobTitle.toLowerCase().includes(jobTitle) : false) ||
+      (jobTitle ? job.jobTitle?.toLowerCase().includes(jobTitle) : true) &&
 
       // Location //
-      ((location && job.locations) ? job.locations.some(loc => {
+      (location ? job.locations?.some(loc => {
         return (
           loc.city.toLowerCase().trim() == location ||
           loc.region?.caption?.toLowerCase().trim() == location ||
           loc.province.toLowerCase().trim() == location
         );
-      }) : false)
+      }) : true)
     );
 
     return results;
