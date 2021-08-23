@@ -8,7 +8,6 @@ var cron = require('node-cron');
 var spawn = require('child_process').spawn;
 const PythonShell = require('python-shell').PythonShell;
 
-//cron.schedule('0 0 0 * * *', () => { // will run at midnight daily
 cron.schedule('0 0 0 * * *', () => { // will run at midnight daily
   console.log(new Date(Date.now()) + ": Starting job listings import ...");
   PythonShell.run('src/scripts/import_job_listings.py', null, function (err, res) {
