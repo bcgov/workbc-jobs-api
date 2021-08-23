@@ -1,7 +1,6 @@
-var jobs = require('./json/job.json');
-
 exports.getJobs = async (params) => {
   try {
+    var jobs = require('./json/job.json');
     let jobTitle = params.jobTitle?.toLowerCase().trim();
     let minimumPostedDate = params.minimumPostedDate ? new Date(params.minimumPostedDate) : null;
 
@@ -27,6 +26,7 @@ exports.getJobs = async (params) => {
 
 exports.totalJobs = async () => {
   try {
+    var jobs = require('./json/job.json');
     return jobs.count;
   }
   
@@ -38,6 +38,7 @@ exports.totalJobs = async () => {
 
 exports.searchJobs = async (params) => {
   try {
+    var jobs = require('./json/job.json');
     let jobTitle = params.jobTitle?.toLowerCase().trim();
     let location = params.location?.toLowerCase().trim();
 

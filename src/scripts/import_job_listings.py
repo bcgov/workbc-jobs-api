@@ -13,5 +13,8 @@ if __name__ == '__main__':
     jobs = fetch(url='https://workbcjobs.api.gov.bc.ca/v1/jobs')
     dirname = os.path.dirname(__file__)
     path = os.path.join(dirname, '../dao/json/job.json')
+    if os.path.exists(path):
+        os.remove(path)
+
     with open(path, 'w') as outfile:
         json.dump(jobs, outfile, indent=4)
