@@ -9,19 +9,11 @@ var spawn = require('child_process').spawn;
 const PythonShell = require('python-shell').PythonShell;
 
 cron.schedule('0 0 0 * * *', () => { // will run at midnight daily
-  console.log(new Date(Date.now()) + ": Starting job listings import ...");
-  PythonShell.run('src/scripts/import_job_listings.py', null, function (err, res) {
-    if (err) throw err;
-    console.log(new Date(Date.now()) + ": Finished job listings import!");
-  });
+  runJobsImport();
 });
 
 cron.schedule('0 0 12 * * *', () => { // will run at noon daily
-  console.log(new Date(Date.now()) + ": Starting job listings import ...");
-  PythonShell.run('src/scripts/import_job_listings.py', null, function (err, res) {
-    if (err) throw err;
-    console.log(new Date(Date.now()) + ": Finished job listings import!");
-  });
+  runJobsImport();
 });
 
 app.use(express.json());
@@ -37,13 +29,19 @@ app.get('/', function (req, res) {
   res.send("WORKBC-JOBS-API: Server is Running.");
 });
 
-app.listen(port, function () {
-  console.log('Started at port %s', port);
-
-  // Run job listings import on start //
+const runJobsImport = () => {
   console.log(new Date(Date.now()) + ": Starting job listings import ...");
+
   PythonShell.run('src/scripts/import_job_listings.py', null, function (err, res) {
     if (err) throw err;
     console.log(new Date(Date.now()) + ": Finished job listings import!");
+    delete require.cache[require.resolve('./dao/json/job.json')];
+    var jobs = require('./dao/json/job.json');
+    console.log("Job Count: " + jobs.count);
   });
+}
+
+app.listen(port, function () {
+  console.log('Started at port %s', port);
+  runJobsImport();
 });
