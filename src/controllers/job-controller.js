@@ -18,11 +18,12 @@ exports.getJobs = async (req, res) => {
 // GET Total Jobs (Count) //
 exports.totalJobs = async (req, res) => {
   try {
-    const jobsCount = await jobDAO.totalJobs();
+    var jobsCount = await jobDAO.totalJobs();
     return res.status(200).json({ count: jobsCount });
   }
 
   catch (err) {
+    console.log(err);
     return res.status(500).send("Internal server error");
   }
 };

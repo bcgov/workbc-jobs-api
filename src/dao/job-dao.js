@@ -1,7 +1,7 @@
-exports.getJobs = async (params) => {
+var jobs = require('./json/job.json');
+
+module.exports.getJobs = async (params) => {
   try {
-    delete require.cache[require.resolve('./json/job.json')];
-    var jobs = require('./json/job.json');
     let jobTitle = params.jobTitle?.toLowerCase().trim();
     let minimumPostedDate = params.minimumPostedDate ? new Date(params.minimumPostedDate) : null;
 
@@ -23,12 +23,11 @@ exports.getJobs = async (params) => {
     console.log(error);
     throw error;
   }
-};
+}
 
-exports.totalJobs = async () => {
-  try {
-    delete require.cache[require.resolve('./json/job.json')];
-    var jobs = require('./json/job.json');
+module.exports.totalJobs = async () => {
+  try { 
+    let importedJobs = jobs;
     return jobs.count;
   }
   
@@ -36,12 +35,11 @@ exports.totalJobs = async () => {
     console.log(err);
     throw err;
   }
-};
+},
 
-exports.searchJobs = async (params) => {
+module.exports.searchJobs = async (params) => {
   try {
-    delete require.cache[require.resolve('./json/job.json')];
-    var jobs = require('./json/job.json');
+    let jobs = jobs;
     let jobTitle = params.jobTitle?.toLowerCase().trim();
     let location = params.location?.toLowerCase().trim();
 
@@ -70,3 +68,4 @@ exports.searchJobs = async (params) => {
     throw error;
   }
 }
+
