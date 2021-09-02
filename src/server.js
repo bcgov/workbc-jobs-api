@@ -38,4 +38,5 @@ const runJobsImport = () => {
 
 app.listen(port, function () {
   console.log('Started at port %s', port);
+  //runJobsImport()
 });

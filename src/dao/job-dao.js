@@ -1,7 +1,9 @@
-var jobs = require('./json/job.json');
+//var jobs = require('./json/job.json');
+var fs = require('fs')
 
 module.exports.getJobs = async (params) => {
   try {
+    let jobs = JSON.parse(fs.readFileSync('src/dao/json/job.json', 'utf8'));
     let jobTitle = params.jobTitle?.toLowerCase().trim();
     let minimumPostedDate = params.minimumPostedDate ? new Date(params.minimumPostedDate) : null;
 
@@ -27,8 +29,8 @@ module.exports.getJobs = async (params) => {
 
 module.exports.totalJobs = async () => {
   try { 
-    let importedJobs = jobs;
-    return jobs.count;
+    let importedJobs = JSON.parse(fs.readFileSync('src/dao/json/job.json', 'utf8'));
+    return importedJobs.count;
   }
   
   catch (err) {
@@ -39,7 +41,7 @@ module.exports.totalJobs = async () => {
 
 module.exports.searchJobs = async (params) => {
   try {
-    let jobs = jobs;
+    let jobs = JSON.parse(fs.readFileSync('src/dao/json/job.json', 'utf8'));
     let jobTitle = params.jobTitle?.toLowerCase().trim();
     let location = params.location?.toLowerCase().trim();
 
