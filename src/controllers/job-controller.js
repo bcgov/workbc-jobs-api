@@ -3,6 +3,9 @@ const jobDAO = require("../dao/job-dao");
 // GET Get Jobs //
 exports.getJobs = async (req, res) => {
   try {
+    console.log("POST request received to " + req.get("host") + req.originalUrl);
+    console.log("request body: ");
+    console.log(req.body);
     const jobs = await jobDAO.getJobs(req.body);
 
     return res.status(200).json({
@@ -17,6 +20,9 @@ exports.getJobs = async (req, res) => {
 
 // GET Total Jobs (Count) //
 exports.totalJobs = async (req, res) => {
+  console.log("POST request received to " + req.get("host") + req.originalUrl);
+  console.log("request body: ");
+  console.log(req.body);
   try {
     var jobsCount = await jobDAO.totalJobs();
     return res.status(200).json({ count: jobsCount });
@@ -30,6 +36,9 @@ exports.totalJobs = async (req, res) => {
 
 // GET Search Jobs //
 exports.searchJobs = async (req, res) => {
+  console.log("POST request received to " + req.get("host") + req.originalUrl);
+  console.log("request body: ");
+  console.log(req.body);
   try {
     const jobs = await jobDAO.searchJobs(req.body);
 
