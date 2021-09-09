@@ -4,6 +4,7 @@ var fs = require('fs')
 module.exports.getJobs = async (params) => {
   try {
     let jobs = JSON.parse(fs.readFileSync('src/dao/json/job.json', 'utf8'));
+    console.log(jobs)
     let jobTitle = params.jobTitle?.toLowerCase().trim();
     let minimumPostedDate = params.minimumPostedDate ? new Date(params.minimumPostedDate) : null;
 
@@ -30,6 +31,7 @@ module.exports.getJobs = async (params) => {
 module.exports.totalJobs = async () => {
   try { 
     let importedJobs = JSON.parse(fs.readFileSync('src/dao/json/job.json', 'utf8'));
+    console.log(importedJobs)
     return importedJobs.count;
   }
   
@@ -42,6 +44,7 @@ module.exports.totalJobs = async () => {
 module.exports.searchJobs = async (params) => {
   try {
     let jobs = JSON.parse(fs.readFileSync('src/dao/json/job.json', 'utf8'));
+    console.log(jobs)
     let jobTitle = params.jobTitle?.toLowerCase().trim();
     let location = params.location?.toLowerCase().trim();
 
