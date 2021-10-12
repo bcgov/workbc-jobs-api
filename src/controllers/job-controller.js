@@ -6,7 +6,7 @@ exports.getJobs = async (req, res) => {
     console.log("POST request received to " + req.get("host") + req.originalUrl);
     console.log("request body: ");
     console.log(req.body);
-    const jobs = await jobDAO.getJobs(req.body);
+    const jobs = await jobDAO.getJobs(req.body, req.app.locals.jobs);
 
     return res.status(200).json({
       count: jobs.length,
@@ -24,7 +24,7 @@ exports.totalJobs = async (req, res) => {
   console.log("request body: ");
   console.log(req.body);
   try {
-    var jobsCount = await jobDAO.totalJobs();
+    var jobsCount = await jobDAO.totalJobs(req.app.locals.jobs);
     return res.status(200).json({ count: jobsCount });
   }
 
@@ -40,7 +40,7 @@ exports.searchJobs = async (req, res) => {
   console.log("request body: ");
   console.log(req.body);
   try {
-    const jobs = await jobDAO.searchJobs(req.body);
+    const jobs = await jobDAO.searchJobs(req.body, req.app.locals.jobs);
 
     return res.status(200).json({
       count: jobs.length,

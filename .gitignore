@@ -80,3 +80,4 @@ dist/
 
 
 *.DS_STORE
+src/dao/json/job.json

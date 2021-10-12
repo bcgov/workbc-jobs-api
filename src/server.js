@@ -4,6 +4,7 @@ var app = express();
 require('dotenv').config();
 var jobRouter = require('./routes/job');
 var cron = require('node-cron');
+var fs = require('fs')
 const PythonShell = require('python-shell').PythonShell;
 
 cron.schedule('0 0 0 * * *', () => { // will run at midnight daily
@@ -21,6 +22,7 @@ app.use(cors());
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8081,
   ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 
+app.locals.jobs= JSON.parse(fs.readFileSync('src/dao/json/job.json', 'utf8'));
 app.use('/jobs', jobRouter);
 
 app.get('/', function (req, res) {
@@ -33,6 +35,10 @@ const runJobsImport = () => {
   PythonShell.run('src/scripts/import_job_listings.py', null, function (err, res) {
     if (err) throw err;
     console.log(new Date(Date.now()) + ": Finished job listings import!");
+    let jobs = JSON.parse(fs.readFileSync('src/dao/json/job.json', 'utf8'));
+    if (jobs !== "" || typeof jobs !== undefined || jobs !== null){
+      app.locals.jobs= jobs
+    }
   });
 }
 
