@@ -6,7 +6,6 @@ var app = express();
 module.exports.getJobs = async (params, jobs) => {
   try {
     //let jobs = app.locals.jobs
-    console.log(jobs)
     let jobTitle = params.jobTitle?.toLowerCase().trim();
     let minimumPostedDate = params.minimumPostedDate ? new Date(params.minimumPostedDate) : null;
 
