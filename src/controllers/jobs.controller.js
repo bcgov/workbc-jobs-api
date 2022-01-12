@@ -51,3 +51,18 @@ exports.searchJobs = async (req, res) => {
       return res.status(500).send("Internal Server Error");
   }
 };
+
+// GET Job Details //
+exports.getJobDetails = async (req, res) => {
+  console.log("GET request received to " + req.get("host") + req.originalUrl);
+  console.log("request body: ");
+  console.log(req.body);
+  try {
+    const jobDetails = await jobService.getJobDetails(req.body.jobID, req.body.language);
+
+    return res.status(200).json(jobDetails);
+
+  } catch (err) {
+      return res.status(500).send("Internal Server Error");
+  }
+};
