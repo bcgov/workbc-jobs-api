@@ -98,6 +98,31 @@ module.exports.searchJobs = async (params) => {
   }
 }
 
+module.exports.getJobDetails = async (jobID, language) => {
+  try {
+    const params = {
+      jobId: jobID,
+      language: language,
+      isToggle: false // increments view count if set to true
+    };
+
+    const jobDetails = await jobsApi.get("Search/GetJobDetail", 
+      {
+        params,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    return jobDetails.data.result[0];
+
+  } catch (error) {
+      console.log(error);
+      throw error;
+  }
+}
+
 
 // HELPER FUNCTIONS //
 function capitalizeFirstLetter(string) {
