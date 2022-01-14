@@ -29,7 +29,7 @@ module.exports.getJobs = async (params) => {
       }
     );
 
-    return jobs.data.result;
+    return jobs.data;
 
   } catch (error) {
       console.log(error);
@@ -90,7 +90,7 @@ module.exports.searchJobs = async (params) => {
       }
     );
 
-    return jobs.data.result;
+    return jobs.data;
 
   } catch (error) {
       console.log(error);
