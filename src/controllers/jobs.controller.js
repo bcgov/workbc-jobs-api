@@ -9,8 +9,8 @@ exports.getJobs = async (req, res) => {
     const jobs = await jobService.getJobs(req.body);
 
     return res.status(200).json({
-      count: jobs.length,
-      jobs: jobs
+      count: jobs.count,
+      jobs: jobs.result
     });
 
   } catch (err) {
@@ -41,10 +41,9 @@ exports.searchJobs = async (req, res) => {
   console.log(req.body);
   try {
     const jobs = await jobService.searchJobs(req.body);
-
     return res.status(200).json({
-      count: jobs.length,
-      jobs: jobs
+      count: jobs.count,
+      jobs: jobs.result
     });
 
   } catch (err) {
