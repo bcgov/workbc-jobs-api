@@ -8,8 +8,8 @@ module.exports.getJobs = async (params) => {
     let minimumPostedDate;
     if (params.minimumPostedDate)
       minimumPostedDate = DateTime.fromISO(params.minimumPostedDate); 
-
-    const jobs = await jobsApi.post("Search/JobSearch", 
+    let url = params.language.toUpperCase() === "FR" ? "Search/JobSearch" : "Search/JobSearch/fr"
+    const jobs = await jobsApi.post(url, 
       JSON.stringify({
         page: params.page ? params.page : 1,
         pageSize: PAGE_SIZE,
@@ -53,12 +53,12 @@ module.exports.searchJobs = async (params) => {
   try {
     let jobTitle = params.jobTitle ? params.jobTitle.toLowerCase().trim() : "";
     let location = params.location ? params.location.trim() : "";
-
+    let url = params.language.toUpperCase() === "FR" ? "Search/JobSearch" : "Search/JobSearch/fr"
     if (!params.jobTitle && !params.location){
       return [];
     }
 
-    const jobs = await jobsApi.post("Search/JobSearch", 
+    const jobs = await jobsApi.post(url, 
       JSON.stringify({
         page: params.page ? params.page : 1,
         pageSize: PAGE_SIZE,
