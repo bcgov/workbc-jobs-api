@@ -63,7 +63,7 @@ module.exports.searchJobs = async (params) => {
         page: params.page ? params.page : 1,
         pageSize: PAGE_SIZE,
         keyword: jobTitle,
-        searchInField: "title",
+        searchInField: "all",
         searchLocations: [
           {
             city: location, // case insensitive
