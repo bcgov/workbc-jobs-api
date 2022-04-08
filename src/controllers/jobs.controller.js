@@ -1,12 +1,12 @@
 const jobService = require("../services/jobs.service");
 
 // GET Get Jobs //
-exports.getJobs = async (req, res) => {
+exports.GetJobs = async (req, res) => {
   try {
     console.log("GET request received to " + req.get("host") + req.originalUrl);
     console.log("request body: ");
     console.log(req.body);
-    const jobs = await jobService.getJobs(req.body);
+    const jobs = await jobService.GetJobs(req.body);
 
     return res.status(200).json({
       count: jobs.count,
@@ -19,12 +19,12 @@ exports.getJobs = async (req, res) => {
 };
 
 // GET Total Jobs (Count) //
-exports.totalJobs = async (req, res) => {
+exports.TotalJobs = async (req, res) => {
   console.log("GET request received to " + req.get("host") + req.originalUrl);
   console.log("request body: ");
   console.log(req.body);
   try {
-    var jobsCount = await jobService.totalJobs();
+    var jobsCount = await jobService.TotalJobs();
     return res.status(200).json({ count: jobsCount });
   }
 
@@ -35,12 +35,12 @@ exports.totalJobs = async (req, res) => {
 };
 
 // GET Search Jobs //
-exports.searchJobs = async (req, res) => {
+exports.SearchJobs = async (req, res) => {
   console.log("GET request received to " + req.get("host") + req.originalUrl);
   console.log("request body: ");
   console.log(req.body);
   try {
-    const jobs = await jobService.searchJobs(req.body);
+    const jobs = await jobService.SearchJobs(req.body);
     return res.status(200).json({
       count: jobs.count,
       jobs: jobs.result
@@ -52,14 +52,29 @@ exports.searchJobs = async (req, res) => {
 };
 
 // GET Job Details //
-exports.getJobDetails = async (req, res) => {
+exports.GetJobDetails = async (req, res) => {
   console.log("GET request received to " + req.get("host") + req.originalUrl);
   console.log("request body: ");
   console.log(req.body);
   try {
-    const jobDetails = await jobService.getJobDetails(req.body.jobID, req.body.language);
+    const jobDetails = await jobService.GetJobDetails(req.body.jobID, req.body.language);
 
     return res.status(200).json(jobDetails);
+
+  } catch (err) {
+      return res.status(500).send("Internal Server Error");
+  }
+};
+
+// GET Search Cities //
+exports.SearchCities = async (req, res) => {
+  console.log("GET request received to " + req.get("host") + req.originalUrl);
+  console.log("request body: ");
+  console.log(req.body);
+  try {
+    const searchResult = await jobService.SearchCities(req.body.searchTerm);
+
+    return res.status(200).json(searchResult);
 
   } catch (err) {
       return res.status(500).send("Internal Server Error");

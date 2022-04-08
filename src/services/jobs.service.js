@@ -2,7 +2,7 @@ const { DateTime } = require("luxon");
 const { jobsApi } = require("../config/config");
 const PAGE_SIZE = 30;
 
-module.exports.getJobs = async (params) => {
+module.exports.GetJobs = async (params) => {
   try {
     let jobTitle = params.jobTitle?.trim();
     let minimumPostedDate;
@@ -37,7 +37,7 @@ module.exports.getJobs = async (params) => {
   }
 }
 
-module.exports.totalJobs = async () => {
+module.exports.TotalJobs = async () => {
   try { 
     const jobsCount = await jobsApi.get("Search/GetTotalJobs");
     return jobsCount.data;
@@ -49,7 +49,7 @@ module.exports.totalJobs = async () => {
   }
 },
 
-module.exports.searchJobs = async (params) => {
+module.exports.SearchJobs = async (params) => {
   try {
     let jobTitle = params.jobTitle ? params.jobTitle.toLowerCase().trim() : "";
     let location = params.location ? params.location.trim() : "";
@@ -98,7 +98,7 @@ module.exports.searchJobs = async (params) => {
   }
 }
 
-module.exports.getJobDetails = async (jobID, language) => {
+module.exports.GetJobDetails = async (jobID, language) => {
   try {
     const params = {
       jobId: jobID,
@@ -116,6 +116,17 @@ module.exports.getJobDetails = async (jobID, language) => {
     );
 
     return jobDetails.data.result[0];
+
+  } catch (error) {
+      console.log(error);
+      throw error;
+  }
+}
+
+module.exports.SearchCities = async (searchTerm) => {
+  try {
+    const jobDetails = await jobsApi.get(`Location/Cities/${searchTerm}`);
+    return jobDetails.data;
 
   } catch (error) {
       console.log(error);
