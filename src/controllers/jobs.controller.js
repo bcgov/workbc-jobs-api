@@ -36,18 +36,23 @@ exports.TotalJobs = async (req, res) => {
 
 // GET Search Jobs //
 exports.SearchJobs = async (req, res) => {
-  console.log("GET request received to " + req.get("host") + req.originalUrl);
-  console.log("request body: ");
-  console.log(req.body);
+  console.log("GET request received to " + req.get("host") + req.originalUrl)
+  console.log("request body: ")
+  console.log(req.body)
   try {
-    const jobs = await jobService.SearchJobs(req.body);
+    const jobs = await jobService.SearchJobs(req.body)
     return res.status(200).json({
       count: jobs.count,
-      jobs: jobs.result
-    });
+      jobs: jobs.result,
+      new: jobs.result.reduce( // counts the number of new jobs
+        (previousValue, currentValue) => {
+            return previousValue + (currentValue.IsNew ? 1 : 0)
+        }, 0
+      ) 
+    })
 
   } catch (err) {
-      return res.status(500).send("Internal Server Error");
+      return res.status(500).send("Internal Server Error")
   }
 };
 

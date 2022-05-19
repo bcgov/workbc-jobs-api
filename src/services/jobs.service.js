@@ -8,6 +8,7 @@ module.exports.GetJobs = async (params) => {
     let minimumPostedDate;
     if (params.minimumPostedDate)
       minimumPostedDate = DateTime.fromISO(params.minimumPostedDate); 
+
     let url = params.language.toUpperCase() === "FR" ? "Search/JobSearch/fr" : "Search/JobSearch"
     const jobs = await jobsApi.post(url, 
       JSON.stringify({
@@ -51,11 +52,16 @@ module.exports.TotalJobs = async () => {
 
 module.exports.SearchJobs = async (params) => {
   try {
-    let jobTitle = params.jobTitle ? params.jobTitle.toLowerCase().trim() : "";
-    let location = params.location ? params.location.trim() : "";
-    let url = params.language.toUpperCase() === "FR" ? "Search/JobSearch/fr" : "Search/JobSearch"
     if (!params.jobTitle && !params.location){
-      return [];
+      return []
+    }
+
+    let jobTitle = params.jobTitle ? params.jobTitle.toLowerCase().trim() : ""
+    let location = params.location ? params.location.trim() : ""
+    let url = params.language.toUpperCase() === "FR" ? "Search/JobSearch/fr" : "Search/JobSearch"
+    let minimumPostedDate;
+    if (params.minimumPostedDate) {
+      minimumPostedDate = DateTime.fromISO(params.minimumPostedDate); 
     }
 
     const jobs = await jobsApi.post(url, 
@@ -81,7 +87,13 @@ module.exports.SearchJobs = async (params) => {
             postal: location // T3X 5V0 and T3X5V0 are both acceptable (i.e. spacing doesn't matter)
           }
         ],
-        searchLocationDistance: -1 // required when using searchLocations
+        searchLocationDistance: -1, // required when using searchLocations
+        startDate: minimumPostedDate ? {
+          year: minimumPostedDate.year,
+          month: minimumPostedDate.month,
+          day: minimumPostedDate.day
+        } : null,
+        searchDateSelection: 3 // required when using startDate (3 corresponds to 'date range')
       }),
       {
         headers: {
@@ -90,11 +102,11 @@ module.exports.SearchJobs = async (params) => {
       }
     );
 
-    return jobs.data;
+    return jobs.data
 
   } catch (error) {
-      console.log(error);
-      throw error;
+      console.log(error)
+      throw error
   }
 }
 
