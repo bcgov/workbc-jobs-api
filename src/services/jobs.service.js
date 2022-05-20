@@ -52,10 +52,6 @@ module.exports.TotalJobs = async () => {
 
 module.exports.SearchJobs = async (params) => {
   try {
-    if (!params.jobTitle && !params.location){
-      return []
-    }
-
     let jobTitle = params.jobTitle ? params.jobTitle.toLowerCase().trim() : ""
     let location = params.location ? params.location.trim() : ""
     let url = params.language.toUpperCase() === "FR" ? "Search/JobSearch/fr" : "Search/JobSearch"
