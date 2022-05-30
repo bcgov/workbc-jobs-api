@@ -87,7 +87,11 @@ module.exports.SearchJobs = async (params) => {
         startDate: minimumPostedDate ? {
           year: minimumPostedDate.year,
           month: minimumPostedDate.month,
-          day: minimumPostedDate.day
+          day: minimumPostedDate.day,
+          hour: minimumPostedDate.hour,
+          minute: minimumPostedDate.minute,
+          second: minimumPostedDate.second,
+          millisecond: minimumPostedDate.millisecond
         } : null,
         searchDateSelection: 3 // required when using startDate (3 corresponds to 'date range')
       }),
