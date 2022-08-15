@@ -1,22 +1,22 @@
-var express = require('express');
-var cors = require('cors');
-var app = express();
-require('dotenv').config();
-var jobRouter = require('./routes/jobs.route');
+const express = require("express")
+const cors = require("cors")
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true })) //Parse URL-encoded bodies
-app.use(cors());
+const app = express()
+require("dotenv").config()
+const jobRouter = require("./routes/jobs.route")
 
-var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8081,
-  ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+app.use(express.json())
+app.use(express.urlencoded({ extended: true })) // Parse URL-encoded bodies
+app.use(cors())
 
-app.use('/jobs', jobRouter);
+const port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8081
 
-app.get('/', function (req, res) {
-  res.send("WORKBC-JOBS-API: Server is Running.");
-});
+app.use("/jobs", jobRouter)
 
-app.listen(port, function () {
-  console.log('Started at port %s', port);
-});
+app.get("/", (req, res) => {
+    res.send("WORKBC-JOBS-API: Server is Running.")
+})
+
+app.listen(port, () => {
+    console.log("Started at port %s", port)
+})
