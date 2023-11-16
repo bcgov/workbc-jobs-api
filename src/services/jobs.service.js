@@ -40,7 +40,8 @@ module.exports.GetJobs = async (params) => {
 
 module.exports.TotalJobs = async () => {
   try { 
-    const jobsCount = await jobsApi.get("Search/GetTotalJobs");
+    const epoch = DateTime.now().setZone("pst").valueOf();
+    const jobsCount = await jobsApi.get(`Search/GetTotalJobs?t=${epoch}`);
     return jobsCount.data;
   }
   
